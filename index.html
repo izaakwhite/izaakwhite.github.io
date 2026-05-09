@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Izaak W. White // Terminal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="crt-flicker"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="prompt-line"><span class="prompt">root@izaak</span>:<span class="path">~</span>$</div>
+            <h1 class="sidebar-title">IZAAK_W_WHITE</h1>
+            <p class="sidebar-subtitle">// software_dev.exe</p>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="#home" class="nav-link active" data-target="home"><span class="bracket">[</span> 01 <span class="bracket">]</span> home</a></li>
+                <li><a href="#about" class="nav-link" data-target="about"><span class="bracket">[</span> 02 <span class="bracket">]</span> about</a></li>
+                <li><a href="#skills" class="nav-link" data-target="skills"><span class="bracket">[</span> 03 <span class="bracket">]</span> skills</a></li>
+                <li><a href="#projects" class="nav-link" data-target="projects"><span class="bracket">[</span> 04 <span class="bracket">]</span> projects</a></li>
+                <li><a href="#contact" class="nav-link" data-target="contact"><span class="bracket">[</span> 05 <span class="bracket">]</span> contact</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="status-line">
+                <span class="dot"></span> ONLINE
+            </div>
+            <div class="status-line muted">// session active</div>
+        </div>
+    </aside>
+
+    <main class="terminal">
+        <header class="terminal-bar">
+            <div class="terminal-buttons">
+                <span class="btn-circle"></span>
+                <span class="btn-circle"></span>
+                <span class="btn-circle"></span>
+            </div>
+            <div class="terminal-title">izaak@portfolio: ~/<span id="title-section">home</span></div>
+            <div class="terminal-clock" id="clock">00:00:00</div>
+        </header>
+
+        <section id="home" class="screen active">
+            <pre class="ascii">
+ ___ ________  ________  ________  ___  __
+|\  \|\_____  \|\   __  \|\   __  \|\  \|\  \
+\ \  \\|___/  /\ \  \|\  \ \  \|\  \ \  \/  /|_
+ \ \  \   /  / /\ \   __  \ \   __  \ \   ___  \
+  \ \  \ /  /_/__\ \  \ \  \ \  \ \  \ \  \\ \  \
+   \ \__\\________\ \__\ \__\ \__\ \__\ \__\\ \__\
+    \|__|\|_______|\|__|\|__|\|__|\|__|\|__| \|__|
+            </pre>
+            <p class="line">> booting environment...</p>
+            <p class="line">> loading user profile <span class="ok">[OK]</span></p>
+            <p class="line">> rendering ui <span class="ok">[OK]</span></p>
+            <p class="line">> shell ready — try <span class="accent">help</span>, <span class="accent">ls</span>, <span class="accent">cd projects</span></p>
+            <p class="line">&nbsp;</p>
+            <h2 class="hello">Hello, I'm <span class="accent">Izaak W. White</span>.</h2>
+            <p class="role">software developer // hardware tinkerer</p>
+            <div class="cta-row">
+                <a class="btn" href="./assets/Izaak_White_Resume.pdf" target="_blank">./resume.pdf</a>
+                <a class="btn" href="#contact" data-target="contact">./contact</a>
+            </div>
+
+            <div class="shell" id="shell">
+                <div id="terminal-output" class="terminal-output"></div>
+                <form id="shell-form" class="shell-input-row" autocomplete="off">
+                    <span class="prompt">root@izaak</span><span class="sep">:</span><span class="path" id="cwd-display">~</span><span class="sep">$</span>
+                    <input type="text" id="shell-input" class="shell-input" spellcheck="false" autocapitalize="off" autocorrect="off" />
+                </form>
+            </div>
+        </section>
+
+        <section id="about" class="screen">
+            <p class="cmd"><span class="prompt">root@izaak</span>:<span class="path">~</span>$ cat about.txt</p>
+            <h2 class="section-title">// ABOUT_ME</h2>
+            <p class="paragraph">
+                I am a Computer Scientist from Cincinnati, Ohio, and a recent graduate eager to keep learning
+                and building. My fascination with computers started on the hardware side — I built my first
+                PC at 15 and still love tinkering with electronics — and grew into a love of programming
+                through high-school classes in Java and C++.
+            </p>
+            <p class="paragraph">
+                In college I leaned into computer science and now code across the stack, mainly in C++ and
+                JS/React. As a hardware security researcher I wrote C++ kernels, got comfortable with
+                GitHub, Linux, and PyMTL3 (a Python-based HDL similar to Verilog), and dug into CGRA
+                architectures.
+            </p>
+            <p class="paragraph">
+                I work well on teams, communicate clearly, and pick up new tools quickly — I'm always
+                looking for the next thing to learn.
+            </p>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>// EXPERIENCE</h3>
+                    <p>Hardware Security Research Assistant</p>
+                    <p>SkyCop</p>
+                </div>
+                <div class="info-card">
+                    <h3>// EDUCATION</h3>
+                    <p>B.Sc. Computer Science</p>
+                    <p>Cyber-Security Management Cert.</p>
+                </div>
+                <div class="info-card">
+                    <h3>// LOCATION</h3>
+                    <p>Cincinnati, OH</p>
+                    <p>// open to remote</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="screen">
+            <p class="cmd"><span class="prompt">root@izaak</span>:<span class="path">~</span>$ ls ./skills</p>
+            <h2 class="section-title">// SKILLS</h2>
+
+            <div class="skills-grid">
+                <div class="skill-block">
+                    <h3>&gt; frontend</h3>
+                    <ul class="tag-list">
+                        <li>HTML</li>
+                        <li>CSS</li>
+                        <li>JavaScript</li>
+                        <li>TypeScript</li>
+                        <li>React</li>
+                        <li>Next.js</li>
+                        <li>Tailwind</li>
+                        <li>Figma</li>
+                    </ul>
+                </div>
+                <div class="skill-block">
+                    <h3>&gt; backend &amp; cloud</h3>
+                    <ul class="tag-list">
+                        <li>C / C++</li>
+                        <li>Python</li>
+                        <li>Java</li>
+                        <li>Node.js</li>
+                        <li>Express</li>
+                        <li>SQL</li>
+                        <li>AWS</li>
+                        <li>Docker</li>
+                        <li>Linux</li>
+                        <li>Bash</li>
+                        <li>Git</li>
+                    </ul>
+                </div>
+                <div class="skill-block">
+                    <h3>&gt; hardware &amp; systems</h3>
+                    <ul class="tag-list">
+                        <li>SystemVerilog</li>
+                        <li>PyMTL3</li>
+                        <li>Verilator</li>
+                        <li>Vivado</li>
+                        <li>Arduino</li>
+                        <li>OpenMPI</li>
+                        <li>Cython</li>
+                        <li>Flex / Bison</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="screen">
+            <p class="cmd"><span class="prompt">root@izaak</span>:<span class="path">~</span>$ ls -la ./projects</p>
+            <h2 class="section-title">// PROJECTS</h2>
+
+            <div class="projects-grid">
+                <article class="project-card">
+                    <h3>&gt; guardian_state_recognizer</h3>
+                    <p>An end-to-end AWS data + ML pipeline for driver-state recognition. CDK-deployed Lambda
+                       triggered by S3 uploads; streams gzipped JSONL line-by-line to keep memory low,
+                       validates and splits into 90/10 train/test (plus validation), and writes a manifest
+                       for downstream SageMaker training of a YOLOv8 model.</p>
+                </article>
+                <article class="project-card">
+                    <h3>&gt; cancer_predictor</h3>
+                    <p>An ID3-style decision tree classifier built from scratch in Python to predict cancer
+                       vs. non-cancer samples from gene-mutation data. Handles class imbalance via
+                       oversampling and accelerates the entropy / information-gain hot path with a Cython
+                       extension compiled with -O3 / -march=native.</p>
+                </article>
+                <article class="project-card">
+                    <h3>&gt; cgra_hw_security_research</h3>
+                    <p>Research on Coarse-Grained Reconfigurable Architectures using CGRA-Flow, VectorCGRA,
+                       Garnet, and PyMTL3. Wrote C++ kernels, mapped them onto reconfigurable fabrics, and
+                       investigated a published CVE — including a CGRA-based secure cache check against
+                       timing attacks.</p>
+                </article>
+                <article class="project-card">
+                    <h3>&gt; systemverilog_cpu</h3>
+                    <p>A single-cycle MIPS-style CPU implemented in SystemVerilog with a full datapath and
+                       control unit: PC, instruction memory, register file, ALU, sign-extension, branch /
+                       jump logic, and data memory. Verified end-to-end with Verilator and custom
+                       testbenches.</p>
+                </article>
+                <article class="project-card">
+                    <h3>&gt; parallel_hash_cracker</h3>
+                    <p>A distributed SHA-256 password cracker written in C with OpenMPI. Splits the password
+                       search space across MPI ranks, broadcasts the salt and target hash, and uses
+                       early-termination messaging so the first rank to find a match short-circuits the
+                       cluster.</p>
+                </article>
+                <article class="project-card">
+                    <h3>&gt; custom_bash_shell</h3>
+                    <p>A Unix shell in C++ with a Flex scanner and Bison parser. Builds a linked list of
+                       command structs supporting argument parsing, I/O redirection (including append for
+                       stdout/stderr), and pipelines, then executes them with fork/exec.</p>
+                </article>
+                <article class="project-card">
+                    <h3>&gt; wordle_clone</h3>
+                    <p>A full-stack Wordle clone built with a team using JavaScript, React, Node, Tailwind,
+                       and Supabase. Practiced collaborative GitHub workflows; produced UML diagrams and
+                       Jest unit tests; shipped extra pages and minigames; wrote a solver algorithm that
+                       cracks Wordle puzzles automatically.</p>
+                </article>
+                <article class="project-card">
+                    <h3>&gt; spotify_karaoke_app</h3>
+                    <p>A full-stack web app letting users log in with Spotify, play songs, and follow along
+                       with synchronized lyrics. Spotify Web API for OAuth 2.0, playlist retrieval, and
+                       real-time playback, plus a Lyric Finder API and Album Cover API. React front-end
+                       with React Router and hooks; Node.js / Express back-end.</p>
+                </article>
+                <article class="project-card">
+                    <h3>&gt; arduino_rtc_led_sign</h3>
+                    <p>A standalone clock + message display built around an Arduino paired with an RTC
+                       module for accurate timekeeping across power cycles, driving an LED matrix sign for
+                       the readout. Firmware in C/C++, I2C with the RTC, and managed display refresh and
+                       scrolling text.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="contact" class="screen">
+            <p class="cmd"><span class="prompt">root@izaak</span>:<span class="path">~</span>$ cat contact.json</p>
+            <h2 class="section-title">// CONTACT</h2>
+            <pre class="contact-json">
+{
+  "name":     "Izaak W. White",
+  "email":    "<a href='mailto:ww655421@ohio.edu'>ww655421@ohio.edu</a>",
+  "linkedin": "<a href='https://www.linkedin.com/in/izaak-white-994319266/' target='_blank'>linkedin.com/in/izaak-white</a>",
+  "github":   "<a href='https://github.com/izaakwhite' target='_blank'>github.com/izaakwhite</a>",
+  "status":   "open to opportunities"
+}
+            </pre>
+            <p class="line">> awaiting transmission<span class="cursor"></span></p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
