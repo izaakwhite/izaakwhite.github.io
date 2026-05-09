@@ -27,6 +27,9 @@
                 <li><a href="#skills" class="nav-link" data-target="skills"><span class="bracket">[</span> 03 <span class="bracket">]</span> skills</a></li>
                 <li><a href="#projects" class="nav-link" data-target="projects"><span class="bracket">[</span> 04 <span class="bracket">]</span> projects</a></li>
                 <li><a href="#contact" class="nav-link" data-target="contact"><span class="bracket">[</span> 05 <span class="bracket">]</span> contact</a></li>
+                <li><a href="#game" class="nav-link" data-target="game"><span class="bracket">[</span> 06 <span class="bracket">]</span> space invader</a></li>
+                <li><a href="#wordle" class="nav-link" data-target="wordle"><span class="bracket">[</span> 07 <span class="bracket">]</span> wordle</a></li>
+                <li><a href="#mips" class="nav-link" data-target="mips"><span class="bracket">[</span> 08 <span class="bracket">]</span> mips cpu</a></li>
             </ul>
         </nav>
         <div class="sidebar-footer">
@@ -103,7 +106,7 @@
                 <div class="info-card">
                     <h3>// EXPERIENCE</h3>
                     <p>Hardware Security Research Assistant</p>
-                    <p>SkyCop</p>
+                    <p>SWE Intern @ SkyCop</p>
                 </div>
                 <div class="info-card">
                     <h3>// EDUCATION</h3>
@@ -252,8 +255,99 @@
             </pre>
             <p class="line">> awaiting transmission<span class="cursor"></span></p>
         </section>
+
+        <section id="mips" class="screen">
+            <p class="cmd"><span class="prompt">root@izaak</span>:<span class="path">~</span>$ ./mips_cpu</p>
+            <h2 class="section-title">// MIPS_CPU</h2>
+
+            <div class="mips-toolbar">
+                <select id="mips-sample" class="mips-select" title="load sample program"></select>
+                <button class="btn mips-btn" id="mips-assemble">./assemble</button>
+                <button class="btn mips-btn" id="mips-step">./step</button>
+                <button class="btn mips-btn" id="mips-run">./run</button>
+                <button class="btn mips-btn" id="mips-reset">./reset</button>
+            </div>
+
+            <div class="mips-grid">
+                <div class="mips-editor-pane">
+                    <div class="pane-label">// editor — main.s</div>
+                    <textarea id="mips-source" class="mips-source" spellcheck="false" autocomplete="off"></textarea>
+                </div>
+
+                <div class="mips-side">
+                    <div class="mips-pane">
+                        <div class="pane-label">// registers <span class="pane-pc" id="mips-pc">PC = 0x00400000</span></div>
+                        <div class="mips-regs" id="mips-regs"></div>
+                    </div>
+
+                    <div class="mips-pane">
+                        <div class="pane-label">// console <span class="pane-pc" id="mips-status">idle</span></div>
+                        <pre class="mips-console" id="mips-console"></pre>
+                    </div>
+
+                    <div class="mips-pane">
+                        <div class="pane-label">// data memory</div>
+                        <pre class="mips-memory" id="mips-memory"></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="wordle" class="screen">
+            <p class="cmd"><span class="prompt">root@izaak</span>:<span class="path">~</span>$ ./wordle --random</p>
+            <h2 class="section-title">// WORDLE</h2>
+
+            <div class="wordle-info">
+                <p class="line">guess the 5-letter word in 6 tries.</p>
+                <p class="line"><span class="ok">█</span> letter is in the word and in the right spot. &nbsp; <span style="color:var(--amber)">█</span> in the word, wrong spot. &nbsp; <span style="color:var(--text-dim)">█</span> not in the word.</p>
+                <p class="line"><span id="wordle-status">word loaded // type to begin</span></p>
+            </div>
+
+            <div class="wordle-board" id="wordle-board"></div>
+
+            <div class="wordle-keyboard" id="wordle-keyboard"></div>
+
+            <div class="wordle-controls">
+                <button class="btn" id="wordle-reset">./new_word</button>
+            </div>
+        </section>
+
+        <section id="game" class="screen">
+            <p class="cmd"><span class="prompt">root@izaak</span>:<span class="path">~</span>$ ./invaders.exe</p>
+            <h2 class="section-title">// SPACE_INVADERS</h2>
+
+            <div class="game-hud">
+                <div class="hud-cell"><span class="hud-label">SCORE</span><span class="hud-val" id="hud-score">0000</span></div>
+                <div class="hud-cell"><span class="hud-label">HI</span><span class="hud-val" id="hud-hi">0000</span></div>
+                <div class="hud-cell"><span class="hud-label">LIVES</span><span class="hud-val" id="hud-lives">3</span></div>
+                <div class="hud-cell"><span class="hud-label">WAVE</span><span class="hud-val" id="hud-wave">1</span></div>
+            </div>
+
+            <div class="game-frame">
+                <canvas id="game-canvas" width="700" height="480"></canvas>
+                <div class="game-overlay" id="game-overlay">
+                    <div class="overlay-inner">
+                        <h3 id="overlay-title">&gt; INSERT_COIN</h3>
+                        <p id="overlay-sub">defend the terminal // press <span class="accent">SPACE</span> to start</p>
+                        <p class="overlay-controls">
+                            <span class="key">&larr;</span> <span class="key">&rarr;</span> move
+                            &nbsp; &nbsp;
+                            <span class="key">SPACE</span> fire
+                            &nbsp; &nbsp;
+                            <span class="key">P</span> pause
+                            &nbsp; &nbsp;
+                            <span class="key">R</span> restart
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
+    <script src="./assets/wordlist.js"></script>
     <script src="script.js"></script>
+    <script src="game.js"></script>
+    <script src="wordle.js"></script>
+    <script src="mips.js"></script>
 </body>
 </html>

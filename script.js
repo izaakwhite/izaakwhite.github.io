@@ -24,7 +24,7 @@ document.querySelectorAll('[data-target]').forEach(el => {
 const initial = (location.hash || '#home').replace('#', '');
 if (document.getElementById(initial)) activate(initial);
 
-const keyMap = { '1': 'home', '2': 'about', '3': 'skills', '4': 'projects', '5': 'contact' };
+const keyMap = { '1': 'home', '2': 'about', '3': 'skills', '4': 'projects', '5': 'contact', '6': 'game', '7': 'wordle', '8': 'mips' };
 document.addEventListener('keydown', e => {
     if (e.target.matches('input, textarea')) return;
     const target = keyMap[e.key];
@@ -48,8 +48,20 @@ setInterval(tick, 1000);
 
 const fs = {
     '~': {
-        dirs: ['about', 'skills', 'projects', 'contact'],
+        dirs: ['about', 'skills', 'projects', 'contact', 'game', 'wordle', 'mips'],
         files: ['resume.pdf', 'README.md']
+    },
+    '~/game': {
+        dirs: [],
+        files: ['invaders.exe', 'highscore.dat']
+    },
+    '~/wordle': {
+        dirs: [],
+        files: ['wordle.exe', 'wordlist.txt']
+    },
+    '~/mips': {
+        dirs: [],
+        files: ['mips_cpu', 'main.s', 'fibonacci.s', 'sum.s', 'factorial.s']
     },
     '~/about': {
         dirs: [],
@@ -92,7 +104,7 @@ const fs = {
 };
 
 // Section-routing dirs (cd into one of these flips the active screen)
-const SECTION_DIRS = new Set(['about', 'skills', 'projects', 'contact', 'home']);
+const SECTION_DIRS = new Set(['about', 'skills', 'projects', 'contact', 'home', 'game', 'wordle', 'mips']);
 
 let cwd = '~';
 const history_ = [];
