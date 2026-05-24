@@ -42,27 +42,40 @@ function tick() {
 tick();
 setInterval(tick, 1000);
 
-// Visitor's public IP (reliable) + city (best-effort, independent).
-// Kept as separate requests so a geo failure can never break the IP line.
+// Visitor's public IP + city. Tries multiple providers in order, since
+// any single IP-geo endpoint may be down, rate-limited, or blocked by a
+// privacy extension. Falls back gracefully if all fail.
 const ipEl = document.getElementById('ip');
 const locEl = document.getElementById('loc');
-if (ipEl) {
-    fetch('https://api.ipify.org?format=json')
-        .then(r => r.json())
-        .then(d => { ipEl.textContent = `IP: ${d.ip || 'unavailable'}`; })
-        .catch(() => { ipEl.textContent = 'IP: unavailable'; });
-}
-if (locEl) {
-    fetch('https://ipapi.co/json/')
-        .then(r => r.json())
-        .then(d => {
-            const parts = [d.city, d.region_code || d.region, d.country_code]
-                .filter(Boolean);
-            locEl.textContent = (!d.error && parts.length)
-                ? `LOC: ${parts.join(', ')}`
-                : 'LOC: unknown';
-        })
-        .catch(() => { locEl.textContent = 'LOC: unknown'; });
+if (ipEl || locEl) {
+    const providers = [
+        // ipwho.is: ip + city in one CORS-friendly call
+        async () => {
+            const d = await (await fetch('https://ipwho.is/')).json();
+            if (d.success === false) throw new Error('ipwho failed');
+            return { ip: d.ip, parts: [d.city, d.region_code, d.country_code] };
+        },
+        // ipapi.co fallback
+        async () => {
+            const d = await (await fetch('https://ipapi.co/json/')).json();
+            if (d.error) throw new Error('ipapi failed');
+            return { ip: d.ip, parts: [d.city, d.region_code, d.country_code] };
+        },
+    ];
+
+    (async () => {
+        for (const get of providers) {
+            try {
+                const { ip, parts } = await get();
+                const loc = parts.filter(Boolean).join(', ');
+                if (ipEl) ipEl.textContent = `IP: ${ip || 'unavailable'}`;
+                if (locEl) locEl.textContent = loc ? `LOC: ${loc}` : 'LOC: unknown';
+                return;
+            } catch (_) { /* try next provider */ }
+        }
+        if (ipEl) ipEl.textContent = 'IP: unavailable';
+        if (locEl) locEl.textContent = 'LOC: unknown';
+    })();
 }
 
 /* ============================================================
