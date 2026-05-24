@@ -131,8 +131,14 @@ body {
 }
 .social-link {
     display: inline-flex;
+    text-decoration: none;
+    border: 0;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 .social-link img {
+    display: block;
+    border: 0;
     width: auto;
     height: 24px;
     filter: drop-shadow(0 0 4px var(--green-glow));
