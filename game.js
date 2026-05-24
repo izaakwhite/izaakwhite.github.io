@@ -206,18 +206,11 @@
     }
 
     function startOrAdvance() {
-        console.log('startOrAdvance called, mode:', state.mode);
-        if (state.mode !== 'idle') {
-            console.log('Not idle, returning');
-            return;
-        }
+        if (state.mode !== 'idle') return;
         const anyAlive = state.aliens.some(a => a.alive);
-        console.log('Aliens alive:', anyAlive);
         if (!anyAlive) {
-            console.log('Starting new game');
             startGame();
         } else {
-            console.log('Resuming game');
             state.mode = 'playing';
             hideOverlay();
         }
@@ -258,7 +251,6 @@
     }
 
     canvas.addEventListener('pointerdown', e => {
-        console.log('Pointer down at:', e.clientX);
         e.preventDefault();
         pointerDown = true;
         pMoved = false;
@@ -274,16 +266,18 @@
     canvas.addEventListener('pointerup', e => {
         if (!pointerDown) return;
         pointerDown = false;
-        const elapsed = performance.now() - pStartT;
-        const tap = !pMoved && elapsed < 300;
-        console.log('Tap detected:', { tap, pMoved, elapsed, mode: state.mode });
+        const tap = !pMoved && performance.now() - pStartT < 300;
         if (!tap) return;
-        console.log('Processing tap action for mode:', state.mode);
         if (state.mode === 'idle') startOrAdvance();
         else if (state.mode === 'gameover') startGame();
         else if (state.mode === 'playing') tryFire(performance.now());
     });
     canvas.addEventListener('pointercancel', () => { pointerDown = false; });
+
+    // Mobile: touch to start (mobile has no SPACE key)
+    canvas.addEventListener('touchstart', () => {
+        if (state.mode === 'idle') startOrAdvance();
+    }, { passive: true });
 
     // ---------- On-screen buttons ----------
     const btnPause = document.getElementById('game-pause');
