@@ -44,20 +44,38 @@ setInterval(tick, 1000);
 
 // Visitor's public IP + city. Tries multiple providers in order, since
 // any single IP-geo endpoint may be down, rate-limited, or blocked by a
-// privacy extension. Falls back gracefully if all fail.
+// privacy extension. Each call has a timeout so a hung request can't stall
+// the chain. Falls back gracefully if all fail.
 const ipEl = document.getElementById('ip');
 const locEl = document.getElementById('loc');
 if (ipEl || locEl) {
+    const getJSON = async (url, ms = 4000) => {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), ms);
+        try {
+            const r = await fetch(url, { signal: ctrl.signal });
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return await r.json();
+        } finally {
+            clearTimeout(t);
+        }
+    };
+
     const providers = [
-        // ipwho.is: ip + city in one CORS-friendly call
+        // GeoJS — reliable, CORS-friendly
         async () => {
-            const d = await (await fetch('https://ipwho.is/')).json();
+            const d = await getJSON('https://get.geojs.io/v1/ip/geo.json');
+            return { ip: d.ip, parts: [d.city, d.region, d.country_code] };
+        },
+        // ipwho.is
+        async () => {
+            const d = await getJSON('https://ipwho.is/');
             if (d.success === false) throw new Error('ipwho failed');
             return { ip: d.ip, parts: [d.city, d.region_code, d.country_code] };
         },
-        // ipapi.co fallback
+        // ipapi.co
         async () => {
-            const d = await (await fetch('https://ipapi.co/json/')).json();
+            const d = await getJSON('https://ipapi.co/json/');
             if (d.error) throw new Error('ipapi failed');
             return { ip: d.ip, parts: [d.city, d.region_code, d.country_code] };
         },
@@ -67,8 +85,9 @@ if (ipEl || locEl) {
         for (const get of providers) {
             try {
                 const { ip, parts } = await get();
+                if (!ip) throw new Error('no ip');
                 const loc = parts.filter(Boolean).join(', ');
-                if (ipEl) ipEl.textContent = `IP: ${ip || 'unavailable'}`;
+                if (ipEl) ipEl.textContent = `IP: ${ip}`;
                 if (locEl) locEl.textContent = loc ? `LOC: ${loc}` : 'LOC: unknown';
                 return;
             } catch (_) { /* try next provider */ }
