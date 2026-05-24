@@ -206,11 +206,18 @@
     }
 
     function startOrAdvance() {
-        if (state.mode !== 'idle') return;
+        console.log('startOrAdvance called, mode:', state.mode);
+        if (state.mode !== 'idle') {
+            console.log('Not idle, returning');
+            return;
+        }
         const anyAlive = state.aliens.some(a => a.alive);
+        console.log('Aliens alive:', anyAlive);
         if (!anyAlive) {
+            console.log('Starting new game');
             startGame();
         } else {
+            console.log('Resuming game');
             state.mode = 'playing';
             hideOverlay();
         }
@@ -251,6 +258,7 @@
     }
 
     canvas.addEventListener('pointerdown', e => {
+        console.log('Pointer down at:', e.clientX);
         e.preventDefault();
         pointerDown = true;
         pMoved = false;
@@ -266,8 +274,11 @@
     canvas.addEventListener('pointerup', e => {
         if (!pointerDown) return;
         pointerDown = false;
-        const tap = !pMoved && performance.now() - pStartT < 300;
+        const elapsed = performance.now() - pStartT;
+        const tap = !pMoved && elapsed < 300;
+        console.log('Tap detected:', { tap, pMoved, elapsed, mode: state.mode });
         if (!tap) return;
+        console.log('Processing tap action for mode:', state.mode);
         if (state.mode === 'idle') startOrAdvance();
         else if (state.mode === 'gameover') startGame();
         else if (state.mode === 'playing') tryFire(performance.now());
@@ -474,6 +485,6 @@
     spawnAliens(1);
     state.aliens.forEach(a => a.alive = false); // start screen: empty until SPACE
     updateHud();
-    showOverlay('> INSERT_COIN', 'defend the terminal // press <span class="accent">SPACE</span> to start');
+    showOverlay('> INSERT_COIN', 'defend the terminal // press <span class="accent">SPACE</span> or tap to start');
     requestAnimationFrame(loop);
 })();
