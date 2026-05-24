@@ -42,6 +42,29 @@ function tick() {
 tick();
 setInterval(tick, 1000);
 
+// Visitor's public IP (reliable) + city (best-effort, independent).
+// Kept as separate requests so a geo failure can never break the IP line.
+const ipEl = document.getElementById('ip');
+const locEl = document.getElementById('loc');
+if (ipEl) {
+    fetch('https://api.ipify.org?format=json')
+        .then(r => r.json())
+        .then(d => { ipEl.textContent = `IP: ${d.ip || 'unavailable'}`; })
+        .catch(() => { ipEl.textContent = 'IP: unavailable'; });
+}
+if (locEl) {
+    fetch('https://ipapi.co/json/')
+        .then(r => r.json())
+        .then(d => {
+            const parts = [d.city, d.region_code || d.region, d.country_code]
+                .filter(Boolean);
+            locEl.textContent = (!d.error && parts.length)
+                ? `LOC: ${parts.join(', ')}`
+                : 'LOC: unknown';
+        })
+        .catch(() => { locEl.textContent = 'LOC: unknown'; });
+}
+
 /* ============================================================
    Virtual filesystem + shell
    ============================================================ */
@@ -199,7 +222,6 @@ const commands = {
         print('  <span class="accent">cd</span> &lt;path&gt;        change directory (cd .., cd ~, cd projects)');
         print('  <span class="accent">pwd</span>               print working directory');
         print('  <span class="accent">clear</span>             clear the screen');
-        print('  <span class="accent">whoami</span>            print current user');
         print('  <span class="accent">help</span>              show this list');
         print('tip: <span class="out-info">cd</span> into <span class="ls-dir">about</span> / <span class="ls-dir">skills</span> / <span class="ls-dir">projects</span> / <span class="ls-dir">contact</span> to switch screens.', 'out-info');
     },
@@ -270,10 +292,6 @@ const commands = {
 
     clear() {
         out.innerHTML = '';
-    },
-
-    whoami() {
-        print('izaak');
     }
 };
 

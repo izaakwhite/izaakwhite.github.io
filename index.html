@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Izaak W. White // Terminal</title>
+    <link rel="icon" type="image/x-icon" href="./assets/favico.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -19,6 +20,20 @@
             <div class="prompt-line"><span class="prompt">root@izaak</span>:<span class="path">~</span>$</div>
             <h1 class="sidebar-title">IZAAK_W_WHITE</h1>
             <p class="sidebar-subtitle">// software_dev.exe</p>
+            <div class="social-row">
+                <a href="https://github.com/izaakwhite" target="_blank" rel="noopener" class="social-link" title="github">
+                    <img src="./assets/github.png" alt="github" />
+                </a>
+                <a href="https://www.linkedin.com/in/izaak-white-994319266/" target="_blank" rel="noopener" class="social-link" title="linkedin">
+                    <img src="./assets/linkedin.png" alt="linkedin" />
+                </a>
+                <a href="mailto:izaak.w.white@gmail.com" class="social-link" title="email">
+                    <img src="./assets/email.png" alt="email" />
+                </a>
+                <a href="./assets/Izaak_White_Resume.pdf" download class="social-link" title="resume">
+                    <img src="./assets/resume.png" alt="resume" />
+                </a>
+            </div>
         </div>
         <nav class="nav">
             <ul>
@@ -48,7 +63,11 @@
                 <span class="btn-circle"></span>
             </div>
             <div class="terminal-title">izaak@portfolio: ~/<span id="title-section">home</span></div>
-            <div class="terminal-clock" id="clock">00:00:00</div>
+            <div class="terminal-meta">
+                <div class="terminal-clock" id="clock">00:00:00</div>
+                <div class="terminal-ip" id="ip">IP: ---</div>
+                <div class="terminal-ip" id="loc">LOC: ---</div>
+            </div>
         </header>
 
         <section id="home" class="screen active">
@@ -185,6 +204,13 @@
             <h2 class="section-title">// PROJECTS</h2>
 
             <div class="projects-grid">
+                <article class="project-card">
+                    <h3>&gt; job_application_tracker</h3>
+                    <p>A self-hosted job-search dashboard built with Node.js / Express and vanilla JS.
+                       Connects to a Google Sheet (via CSV export) or an uploaded .xlsx / .csv, normalizes
+                       free-form application statuses into a fixed funnel, and computes response, interview,
+                       and offer rates. Ships a downloadable spreadsheet template and a no-API-key setup flow.</p>
+                </article>
                 <article class="project-card">
                     <h3>&gt; guardian_state_recognizer</h3>
                     <p>An end-to-end AWS data + ML pipeline for driver-state recognition. CDK-deployed Lambda
