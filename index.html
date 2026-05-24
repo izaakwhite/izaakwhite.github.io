@@ -9,13 +9,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=2" />
+    <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
     <div class="scanlines"></div>
     <div class="crt-flicker"></div>
 
     <aside class="sidebar">
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
         <div class="sidebar-header">
             <div class="prompt-line"><span class="prompt">root@izaak</span>:<span class="path">~</span>$</div>
             <h1 class="sidebar-title">IZAAK_W_WHITE</h1>
@@ -35,7 +38,7 @@
                 </a>
             </div>
         </div>
-        <nav class="nav">
+        <nav class="nav" id="navMenu">
             <ul>
                 <li><a href="#home" class="nav-link active" data-target="home"><span class="bracket">[</span> 01 <span class="bracket">]</span> home</a></li>
                 <li><a href="#about" class="nav-link" data-target="about"><span class="bracket">[</span> 02 <span class="bracket">]</span> about</a></li>
@@ -363,7 +366,7 @@
                 <div class="game-overlay" id="game-overlay">
                     <div class="overlay-inner">
                         <h3 id="overlay-title">&gt; INSERT_COIN</h3>
-                        <p id="overlay-sub">defend the terminal // press <span class="accent">SPACE</span> to start</p>
+                        <p id="overlay-sub">defend the terminal // press <span class="accent">SPACE</span> or tap to start</p>
                         <p class="overlay-controls">
                             <span class="key">&larr;</span> <span class="key">&rarr;</span> move
                             &nbsp; &nbsp;
@@ -373,15 +376,21 @@
                             &nbsp; &nbsp;
                             <span class="key">R</span> restart
                         </p>
+                        <p class="overlay-controls touch-hint">on touch: drag to move &middot; tap to fire</p>
                     </div>
                 </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn mips-btn" id="game-pause">&#10073;&#10073; pause</button>
+                <button class="btn mips-btn" id="game-restart">&#8635; restart</button>
             </div>
         </section>
     </main>
 
     <script src="./assets/wordlist.js"></script>
-    <script src="script.js?v=3"></script>
-    <script src="game.js"></script>
+    <script src="script.js?v=4"></script>
+    <script src="game.js?v=4"></script>
     <script src="wordle.js"></script>
     <script src="mips.js"></script>
 </body>

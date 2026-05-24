@@ -226,8 +226,62 @@
         }
     }
 
+    function tryFire(now) {
+        if (state.mode !== 'playing') return;
+        if (now - state.lastFire > 320 && state.bullets.length < 2) {
+            const p = state.player;
+            state.bullets.push({ x: p.x + p.w / 2 - 1, y: p.y - 4, w: 2, h: 12, vy: -520 });
+            state.lastFire = now;
+        }
+    }
+
     document.addEventListener('keydown', e => handleKey(e, true));
     document.addEventListener('keyup', e => handleKey(e, false));
+
+    // ---------- Touch / pointer: drag to move, tap to fire ----------
+    let pointerDown = false, pStartX = 0, pStartT = 0, pMoved = false;
+
+    function canvasToGameX(clientX) {
+        const rect = canvas.getBoundingClientRect();
+        return (clientX - rect.left) * (W / rect.width);
+    }
+    function moveShipTo(clientX) {
+        const p = state.player;
+        p.x = Math.max(10, Math.min(W - p.w - 10, canvasToGameX(clientX) - p.w / 2));
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+        e.preventDefault();
+        pointerDown = true;
+        pMoved = false;
+        pStartX = e.clientX;
+        pStartT = performance.now();
+        try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+    });
+    canvas.addEventListener('pointermove', e => {
+        if (!pointerDown) return;
+        if (Math.abs(e.clientX - pStartX) > 6) pMoved = true;
+        if (pMoved && state.mode === 'playing') moveShipTo(e.clientX);
+    });
+    canvas.addEventListener('pointerup', e => {
+        if (!pointerDown) return;
+        pointerDown = false;
+        const tap = !pMoved && performance.now() - pStartT < 300;
+        if (!tap) return;
+        if (state.mode === 'idle') startOrAdvance();
+        else if (state.mode === 'gameover') startGame();
+        else if (state.mode === 'playing') tryFire(performance.now());
+    });
+    canvas.addEventListener('pointercancel', () => { pointerDown = false; });
+
+    // ---------- On-screen buttons ----------
+    const btnPause = document.getElementById('game-pause');
+    const btnRestart = document.getElementById('game-restart');
+    if (btnPause) btnPause.addEventListener('click', () => {
+        if (state.mode === 'idle') startOrAdvance();
+        else togglePause();
+    });
+    if (btnRestart) btnRestart.addEventListener('click', startGame);
 
     // ---------- Update ----------
     function update(dt) {
@@ -240,17 +294,7 @@
         p.x = Math.max(10, Math.min(W - p.w - 10, p.x));
 
         // Player firing (rate-limited)
-        const now = performance.now();
-        if (state.keys.fire && now - state.lastFire > 320 && state.bullets.length < 2) {
-            state.bullets.push({
-                x: p.x + p.w / 2 - 1,
-                y: p.y - 4,
-                w: 2,
-                h: 12,
-                vy: -520
-            });
-            state.lastFire = now;
-        }
+        if (state.keys.fire) tryFire(performance.now());
 
         // Bullets
         state.bullets.forEach(b => b.y += b.vy * dt);

@@ -12,12 +12,29 @@ function activate(targetId) {
     if (history.replaceState) history.replaceState(null, '', '#' + targetId);
 }
 
+// Mobile hamburger menu
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.getElementById('navMenu');
+function closeMenu() {
+    if (!navMenu) return;
+    navMenu.classList.remove('open');
+    if (navToggle) { navToggle.classList.remove('open'); navToggle.setAttribute('aria-expanded', 'false'); }
+}
+if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+        const open = navMenu.classList.toggle('open');
+        navToggle.classList.toggle('open', open);
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+}
+
 document.querySelectorAll('[data-target]').forEach(el => {
     el.addEventListener('click', e => {
         const target = el.dataset.target;
         if (!target) return;
         e.preventDefault();
         activate(target);
+        closeMenu();
     });
 });
 
