@@ -1086,4 +1086,7 @@ body {
     .screen {
         padding: 1.25rem;
     }
+    .terminal-ip {
+        display: none;
+    }
 }
