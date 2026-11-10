@@ -158,6 +158,7 @@ const fs = {
     '~/projects': {
         dirs: [],
         files: [
+            'shelf_tv_launcher',
             'guardian_state_recognizer',
             'cancer_predictor',
             'cgra_hw_security',
